@@ -1,0 +1,33 @@
+//DML INSERT UPDATE DELETE dan select
+
+//perintah menginsert
+INSERT INTO jenis_produk VALUES
+('','Elektronik'), ('','Furniture'),('','Makanan'), ('','Minuman');
+
+//insert dengan memanggil nama kolom dan id table sebelah
+INSERT INTO produk (nama, harga, stok, idjenis, foto) VALUES 
+('TV',200000,3,1,'tv.jpg'), ('Meja',300000,3,2,'meja.jpg');
+
+//update data produk
+UPDATE produk SET nama = 'TV LCD', harga = 400000 WHERE id = 1;
+
+//mengahpus data table colom tertentu
+DELETE FROM produk WHERE id = 2;
+
+//select menampilkan semua kolom pada tabel
+SELECT * FROM jenis_produk;
+
+//select menampilkan field tertentu dalam satu kolom
+SELECT nama, harga, stok FROM produk;
+
+//select menggunakan klausa WHERE 
+SELECT nama, harga, stok FROM produk WHERE stok < 40;
+
+//mencari produk yang stok nya lebih kecil dari 10
+SELECT * FROM produk WHERE stok <= 10;
+
+//Menampilkan urutan produk dari yang terbesar sampai kecil
+SELECT * FROM produk ORDER BY harga DESC;
+
+//Menampilkan urutan porduk dari yang terkecil sampai besar
+SELECT * FROM produk ORDER BY harga ASC;
