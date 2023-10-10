@@ -1,0 +1,72 @@
+WORKSHEET 1 TUGAS MANDIRI
+
+//Membuat table pesanan_items
+
+MariaDB [dbpost]> create table pesanan_items (
+    -> id int (11) PRIMARY KEY,
+    -> produk int not null references produk(id),
+    -> pesanan int null references pesanan(id),
+    -> qty int (11),
+    -> harga double);
+Query OK, 0 rows affected (0.055 sec)
+
+
+MariaDB [dbpost]> desc pesanan_items;
++---------+---------+------+-----+---------+-------+
+| Field   | Type    | Null | Key | Default | Extra |
++---------+---------+------+-----+---------+-------+
+| id      | int(11) | NO   | PRI | NULL    |       |
+| produk  | int(11) | NO   |     | NULL    |       |
+| pesanan | int(11) | YES  |     | NULL    |       |
+| qty     | int(11) | YES  |     | NULL    |       |
+| harga   | double  | YES  |     | NULL    |       |
++---------+---------+------+-----+---------+-------+
+5 rows in set (0.026 sec)
+
+//Membuat table vendor
+
+MariaDB [dbpost]> create table vendor(
+    -> id int (11) PRIMARY KEY,
+    -> nomor varchar(4),
+    -> nama varchar(40),
+    -> kota varchar(30),
+    -> kontak varchar(30));
+Query OK, 0 rows affected (0.053 sec)
+
+MariaDB [dbpost]> desc vendor;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int(11)     | NO   | PRI | NULL    |       |
+| nomor  | varchar(4)  | YES  |     | NULL    |       |
+| nama   | varchar(40) | YES  |     | NULL    |       |
+| kota   | varchar(30) | YES  |     | NULL    |       |
+| kontak | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+//membuat tabel pembelian
+ght syntax to use near '(11)' at line 8
+MariaDB [dbpost]> CREATE TABLE pembelian (
+    ->     id INT(11) PRIMARY KEY,
+    ->     tanggal VARCHAR(45),
+    ->     nomor VARCHAR(10),
+    ->     produk_id INT(11),
+    ->     jumlah INT(11),
+    ->     harga DOUBLE,
+    ->     vendor_id INT(11)
+    -> );
+Query OK, 0 rows affected (0.049 sec)
+
+MariaDB [dbpost]> desc pembelian;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int(11)     | NO   | PRI | NULL    |       |
+| tanggal   | varchar(45) | YES  |     | NULL    |       |
+| nomor     | varchar(10) | YES  |     | NULL    |       |
+| produk_id | int(11)     | YES  |     | NULL    |       |
+| jumlah    | int(11)     | YES  |     | NULL    |       |
+| harga     | double      | YES  |     | NULL    |       |
+| vendor_id | int(11)     | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.038 sec)
