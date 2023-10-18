@@ -1,0 +1,231 @@
+SOAL 5.1
+
+1. CREATE VIEW pesanan_pelanggan_kartu
+
+AS SELECT pesanan.id, pesanan.tanggal, pesanan. total, pelanggan.kode, pelanggan.nama, 
+kartu.nama as nama_kartu, kartu.diskon
+FROM pesanan INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+INNER JOIN kartu ON pelanggan.kartu_id = kartu.id;
+Select * FROM pesanan_pelanggan_kartu
+
+MariaDB [sql]> select * from pesanan_pelanggan_kartu;
++----+------------+---------+------+---------------+---------------+--------+
+| id | tanggal    | total   | kode | nama          | nama_kartu    | diskon |
++----+------------+---------+------+---------------+---------------+--------+
+|  1 | 2015-11-04 | 9720000 | C001 | Agung Sedayu  | Gold Utama    |   0.05 |
+|  2 | 2015-11-04 |   17500 | C003 | Sekar Mirah   | Gold Utama    |   0.05 |
+|  3 | 2015-11-04 |       0 | C006 | Gayatri Dwi   | Gold Utama    |   0.05 |
+|  4 | 2015-11-04 |       0 | C007 | Dewi Gyat     | Gold Utama    |   0.05 |
+|  5 | 2015-11-04 |       0 | C010 | Cassanndra    | Gold Utama    |   0.05 |
+|  6 | 2015-11-04 |       0 | C002 | Pandan Wangi  | Platinum Jaya |    0.1 |
+|  7 | 2015-11-04 |       0 | C005 | Pradabashu    | Platinum Jaya |    0.1 |
+|  8 | 2015-11-04 |       0 | C004 | Swandaru Geni | Non Member    |      0 |
+|  9 | 2015-11-04 |       0 | C008 | Andre Haru    | Non Member    |      0 |
+| 10 | 2015-11-04 |       0 | C009 | Ahmad Hasan   | Non Member    |      0 |
++----+------------+---------+------+---------------+---------------+--------+
+10 rows in set (0.010 sec)
+
+2. MariaDB [sql]> CREATE VIEW View_Pembelian_Produk_Vendor AS
+    -> SELECT
+    -> p.id AS ID_Pembelian,
+    -> p.tanggal AS Tanggal_Pembelian,
+    -> p.nomor AS Nomor_Pembelian,
+    -> p.jumlah AS Jumlah_Pembelian,
+    -> p.harga AS Harga_Pembelian,
+    -> pr.nama AS Nama_Produk,
+    -> v.nama AS Nama_Vendor,
+    -> v.kontak AS Kontak_Vendor
+    -> FROM
+    -> pembelian p
+    -> JOIN
+    -> produk pr ON p.produk_id = pr.id
+    -> JOIN
+    ->vendor v ON p.vendor_id = v.id;
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [sql]> show tables;
++------------------------------+
+| Tables_in_sql                |
++------------------------------+
+| jenis_produk                 |
+| kartu                        |
+| lihat_vendor                 |
+| pelanggan                    |
+| pembayaran                   |
+| pembelian                    |
+| pesanan                      |
+| pesanan_items                |
+| pesanan_pelanggan_kartu      |
+| produk                       |
+| vendor                       |
+| view_pembelian_produk_vendor |
++------------------------------+
+12 rows in set (0.002 sec)
+
+MariaDB [sql]> select * from view_pembelian_produk_vendor;
++--------------+-------------------+-----------------+------------------+-----------------+------------------+----------------------+-----------------+
+| ID_Pembelian | Tanggal_Pembelian | Nomor_Pembelian | Jumlah_Pembelian | Harga_Pembelian | Nama_Produk      | Nama_Vendor          | Kontak_Vendor   |
++--------------+-------------------+-----------------+------------------+-----------------+------------------+----------------------+-----------------+
+|            1 | 2019-10-10        | P001            |                2 |         3500000 | Televisi 21 inch | PT Guna Samudra      | Ali Nurdin      |
+|            2 | 2019-11-20        | P002            |                5 |         5500000 | Televisi 40 inch | PT Pondok C9         | Putri Ramadhani |
+|            3 | 2019-12-12        | P003            |                5 |         5400000 | Televisi 40 inch | PT Guna Samudra      | Ali Nurdin      |
+|            4 | 2020-01-20        | P004            |              200 |            1800 | Teh Botol        | CV Jaya Raya Semesta | Dwi Rahayu      |
+|            5 | 2020-01-20        | P005            |              100 |            2300 | Teh Kotak        | CV Jaya Raya Semesta | Dwi Rahayu      |
++--------------+-------------------+-----------------+------------------+-----------------+------------------+----------------------+-----------------+
+5 rows in set (0.010 sec)
+
+3. MariaDB [sql]> create view pesanan_pelanggan_jenis_produk_pesanan_items
+    -> as
+    -> select
+    -> pesanan.id, pesanan.tanggal, pesanan.total,
+    -> pelanggan.nama,
+    -> produk.kode, produk.nama as nama_produk,
+    -> jenis_produk.nama as jenis_produk,
+    -> pesanan_items.qty, pesanan_items.harga as harga_jual
+    -> from pesanan
+    -> inner join pelanggan on pesanan.pelanggan_id = pelanggan.id
+    -> inner join pesanan_items on pesanan.id = pesanan_items.pesanan_id
+    -> inner join produk on pesanan_items.produk_id = produk.id
+    -> inner join jenis_produk on produk.jenis_produk_id = jenis_produk.id;
+Query OK, 0 rows affected (0.030 sec)
+
+MariaDB [sql]> show tables;
++----------------------------------------------+
+| Tables_in_sql                                |
++----------------------------------------------+
+| jenis_produk                                 |
+| kartu                                        |
+| lihat_vendor                                 |
+| pelanggan                                    |
+| pembayaran                                   |
+| pembelian                                    |
+| pesanan                                      |
+| pesanan_items                                |
+| pesanan_pelanggan_jenis_produk_pesanan_items |
+| pesanan_pelanggan_kartu                      |
+| produk                                       |
+| vendor                                       |
+| view_pembelian_produk_vendor                 |
++----------------------------------------------+
+13 rows in set (0.002 sec)
+
+MariaDB [sql]> select * from pesanan_pelanggan_jenis_produk_pesanan_items;
++----+------------+---------+--------------+------+------------------+--------------+------+------------+
+| id | tanggal    | total   | nama         | kode | nama_produk      | jenis_produk | qty  | harga_jual |
++----+------------+---------+--------------+------+------------------+--------------+------+------------+
+|  1 | 2015-11-04 | 9720000 | Agung Sedayu | TV01 | Televisi 21 inch | elektronik   |    1 |    5040000 |
+|  1 | 2015-11-04 | 9720000 | Agung Sedayu | K001 | Kulkas 2 pintu   | elektronik   |    1 |    4680000 |
+|  3 | 2015-11-04 |       0 | Gayatri Dwi  | TV01 | Televisi 21 inch | elektronik   |    1 |    5040000 |
+|  2 | 2015-11-04 |   17500 | Sekar Mirah  | TK01 | Teh Kotak        | minuman      |    5 |       3500 |
+|  3 | 2015-11-04 |       0 | Gayatri Dwi  | TK01 | Teh Kotak        | minuman      |   10 |       3500 |
+|  5 | 2015-11-04 |       0 | Cassanndra   | TK01 | Teh Kotak        | minuman      |   10 |       3500 |
+|  6 | 2015-11-04 |       0 | Pandan Wangi | TK01 | Teh Kotak        | minuman      |   20 |       3500 |
++----+------------+---------+--------------+------+------------------+--------------+------+------------+
+7 rows in set (0.017 sec)
+
+MariaDB [sql]>
+
+SOAL 5.2
+
+● Mulai transaction
+MariaDB [sql]> start transaction;
+Query OK, 0 rows affected (0.001 sec)
+
+●	Insert data produk sebanyak 3 record
+MariaDB [sql]> insert into produk ( kode, nama, harga_beli, harga_jual, stok, min_stok, jenis_produk_id) values
+    -> ('B001','Hp Oppo',3000000,7000000,5,2,1),
+    -> ('B002','lemari Plastik',2000000,3000000,10,4,2),
+    -> ('B003','Laptop MSI',10000000,13000000,5,2,1);
+Query OK, 3 rows affected (0.012 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [sql]> select * from produk;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02 | Televisi 40 inch |    5500000 |    7440000 |    4 |        2 |               1 |
+|  3 | K001 | Kulkas 2 pintu   |    3500000 |    4680000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 |               2 |
+|  5 | TK01 | Teh Kotak        |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | PC01 | PC Desktop HP    |    7000000 |    9600000 |    9 |        2 |               5 |
+|  7 | TB01 | Teh Botol        |       2000 |       2500 |   53 |       10 |               4 |
+|  8 | AC01 | Notebook Acer    |    8000000 |   10800000 |    7 |        2 |               5 |
+|  9 | LN01 | Notebook Lenovo  |    9000000 |   12000000 |    9 |        2 |               5 |
+| 10 | L004 | Laptop HP        |   12000000 |   13000000 |   20 |        5 |               5 |
+| 11 | B001 | Hp Oppo          |    3000000 |    7000000 |    5 |        2 |               1 |
+| 12 | B002 | lemari Plastik   |    2000000 |    3000000 |   10 |        4 |               2 |
+| 13 | B003 | Laptop MSI       |   10000000 |   13000000 |    5 |        2 |               1 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
+
+●	Update data stok salah satu produk
+MariaDB [sql]> update produk
+    -> set stok = 7
+    -> where nama = 'Lemari Plastik';
+Query OK, 1 row affected (0.011 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sql]> select * from produk;
++----+------+------------------+------------+------------+------+----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+-----------------+
+|  1 | TV01 | Televisi 21 inch |    3500000 |    5040000 |    5 |        2 |               1 |
+|  2 | TV02 | Televisi 40 inch |    5500000 |    7440000 |    4 |        2 |               1 |
+|  3 | K001 | Kulkas 2 pintu   |    3500000 |    4680000 |    6 |        2 |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 |               2 |
+|  5 | TK01 | Teh Kotak        |       3000 |       3500 |    6 |       10 |               4 |
+|  6 | PC01 | PC Desktop HP    |    7000000 |    9600000 |    9 |        2 |               5 |
+|  7 | TB01 | Teh Botol        |       2000 |       2500 |   53 |       10 |               4 |
+|  8 | AC01 | Notebook Acer    |    8000000 |   10800000 |    7 |        2 |               5 |
+|  9 | LN01 | Notebook Lenovo  |    9000000 |   12000000 |    9 |        2 |               5 |
+| 10 | L004 | Laptop HP        |   12000000 |   13000000 |   20 |        5 |               5 |
+| 11 | B001 | Hp Oppo          |    3000000 |    7000000 |    5 |        2 |               1 |
+| 12 | B002 | lemari Plastik   |    2000000 |    3000000 |    7 |        4 |               2 |
+| 13 | B003 | Laptop MSI       |   10000000 |   13000000 |    5 |        2 |               1 |
++----+------+------------------+------------+------------+------+----------+-----------------+
+13 rows in set (0.001 sec)
+
+●	Buat savepoint
+MariaDB [sql]> delete from pembayaran where iD = '8';
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [sql]> select * from pembayaran;
++----+------------+------------+----------+------+------------+
+| id | nokuitansi | tanggal    | jumlah   | ke   | pesanan_id |
++----+------------+------------+----------+------+------------+
+|  4 | A004       | 2023-06-06 |  5000000 |    3 |          2 |
+|  5 | A005       | 2023-04-04 | 10000000 |    2 |          1 |
+|  6 | A006       | 2023-02-02 |   200000 |    2 |          3 |
++----+------------+------------+----------+------+------------+
+3 rows in set (0.001 sec)
+
+●	Kembali ke savepoint
+
+MariaDB [sql]> rollback;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [sql]> select * from pembayaran;
+Empty set (0.001 sec)
+
+●	Update data iuran salah satu kartu
+MariaDB [sql]> update kartu
+    -> set iuran = 200000
+    -> where nama = 'Gold Utama';
+Query OK, 1 row affected (0.009 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sql]> select * from kartu;
++----+------+---------------+--------+--------+
+| id | kode | nama          | diskon | iuran  |
++----+------+---------------+--------+--------+
+|  1 | GOLD | Gold Utama    |   0.05 | 200000 |
+|  2 | PLAT | Platinum Jaya |    0.1 | 150000 |
+|  3 | SLV  | Silver        |  0.025 |  50000 |
+|  4 | NO   | Non Member    |      0 |      0 |
++----+------+---------------+--------+--------+
+4 rows in set (0.001 sec)
+
+●	Akhiri transaction dengan commit
+MariaDB [sql]> commit;
+Query OK, 0 rows affected (0.000 sec)
